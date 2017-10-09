@@ -1,0 +1,5 @@
+server {
+    include /etc/nginx/include.d/gini.conf;
+    server_name nankai.stat.labmai.com;
+    root /data/gini-modules/mall-stat/web;
+}

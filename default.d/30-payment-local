@@ -1,0 +1,21 @@
+server {
+  # listen 7845;
+  server_name lp-copies.nankai.labmai.com;
+
+  root /data/gini-modules/node/lab-orders/data/payment/local;
+    index  index.html  index.php  /_h5ai/server/php/index.php;
+
+    location ~* \.php {
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        # NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
+
+        fastcgi_pass 172.17.42.1:9001;
+        fastcgi_index index.php;
+
+        include fastcgi_params;
+
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+    }
+
+}

@@ -1,0 +1,198 @@
+# server {
+#     include /etc/nginx/include.d/gateway.conf;
+#     server_name nankai-gateway.gapper.in;
+#     root /data/gini-modules/maintain-view/public;
+# }
+
+server {
+    include /etc/nginx/include.d/gateway.conf;
+    server_name nankai-gateway.gapper.in;
+    root /data/gini-modules/nankai-gateway/web;
+}
+
+server {
+    server_name nankai.labmai.com mall.nankai.edu.cn;
+    root /data/gini-modules/node/home/web;
+
+    location ~ ^/download/(.*)$ {
+        root /data/gini-modules/node/home/web/assets/img;
+        break;
+    }
+
+    location ~ ^/assets/(.*)$ {
+        root /data/gini-modules/node/home/web;
+        break;
+    }
+
+    location ~ ^/fe/(.*)$ {
+        root /data/fe-home/dist/html/nankai;
+        try_files $1 $1/index.html break;
+    }
+
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico|swf)$ {
+        root /data/fe-home/dist;
+        log_not_found off;
+        access_log off;
+    }
+
+    location ~* \.(eot|ttf|woff)$ {
+        root /data/fe-home/dist;
+        add_header Access-Control-Allow-Origin *;
+    }
+
+    include /etc/nginx/include.d/gini.conf;
+}
+
+server {
+    server_name orders.nankai.labmai.com;
+    root /data/gini-modules/node/lab-orders/web;
+        location ~ ^/fe/bill$ {
+            root /data/fe-lab-orders/dist;
+            # First attempt to serve request as file, then
+            # as directory, then fall back to index.html
+            try_files $1 $1/index.html break;
+        }
+
+        location ~* ^/assets/.*\.(js|css|png|jpg|jpeg|gif|ico|swf|woff|eot|ttf)$ {
+            #expires max;
+            root /data/gini-modules/node/lab-orders/web;
+            log_not_found off;
+            access_log off;
+        }
+
+        location ~* \.(js|css|png|jpg|jpeg|gif|ico|swf|map)$ {
+            #expires max;
+            root /data/fe-lab-orders/dist;
+            log_not_found off;
+            access_log off;
+        }
+
+        location ~* \.(eot|ttf|woff)$ {
+            root /data/fe-lab-orders/dist;
+            add_header Access-Control-Allow-Origin *;
+        }
+    include /etc/nginx/include.d/gini.conf;
+}
+
+server {
+    include /etc/nginx/include.d/gini.conf;
+    server_name inventory.nankai.labmai.com;
+    root /data/gini-modules/node/lab-inventory/web;
+}
+
+server {
+    include /etc/nginx/include.d/gini.conf;
+    server_name grants.nankai.labmai.com;
+    root /data/gini-modules/node/lab-grants/web;
+}
+
+server {
+    include /etc/nginx/include.d/gini.conf;
+    server_name waste.nankai.labmai.com;
+    root /data/gini-modules/node/lab-waste/web;
+}
+
+server {
+    include /etc/nginx/include.d/gini.conf;
+    server_name bottles.nankai.labmai.com;
+    root /data/gini-modules/node/lab-waste-bottle/web;
+}
+
+server {
+    server_name admin.nankai.labmai.com;
+    root /data/gini-modules/node/admin-home/web;
+
+    location /aicces/ {
+    proxy_pass http://172.17.42.1:8083;
+        proxy_set_header  X-Real-IP  $remote_addr;
+        proxy_set_header Host $host;
+    }
+
+    location ~* ^/dist/.*$ {
+        root /data/fe-admin;
+    }
+
+    include /etc/nginx/include.d/gini.conf;
+}
+
+server {
+    include /etc/nginx/include.d/gini.conf;
+    server_name drug-precursor.nankai.labmai.com;
+    root /data/gini-modules/node/drug-precursor/web;
+}
+
+server {
+    include /etc/nginx/include.d/gini.conf;
+    server_name drug-precursor.admin.nankai.labmai.com;
+    root /data/gini-modules/node/admin-drug-precursor/web;
+}
+
+server {
+    include /etc/nginx/include.d/gini.conf;
+    server_name chemical-limits.admin.nankai.labmai.com;
+    root /data/gini-modules/node/admin-chemical-limits/web;
+}
+
+server {
+    include /etc/nginx/include.d/gini.conf;
+    server_name waste.admin.nankai.labmai.com;
+    root /data/gini-modules/node/admin-waste/web;
+}
+
+server {
+    include /etc/nginx/include.d/gini.conf;
+    server_name waste-bottle.admin.nankai.labmai.com;
+    root /data/gini-modules/node/admin-waste-bottle/web;
+}
+
+server {
+    include /etc/nginx/include.d/gini.conf;
+    server_name order-stat.admin.nankai.labmai.com;
+    root /data/gini-modules/node/admin-order-stat/web;
+}
+
+server {
+    include /etc/nginx/include.d/gini.conf;
+    server_name chemical-stat.admin.nankai.labmai.com;
+    root /data/gini-modules/node/admin-chemical-stat/web;
+}
+
+server {
+    include /etc/nginx/include.d/gini.conf;
+    server_name access.admin.nankai.labmai.com;
+    root /data/gini-modules/node/admin-access/web;
+}
+
+server {
+    include /etc/nginx/include.d/gini.conf;
+    server_name security-inspection.admin.nankai.labmai.com;
+    root /data/gini-modules/node/admin-security-inspection/web;
+}
+
+server {
+    include /etc/nginx/include.d/gini.conf;
+    server_name user-security-inspection.nankai.labmai.com;
+    root /data/gini-modules/node/user-security-inspection/web;
+}
+
+server {
+    include /etc/nginx/include.d/gini.conf;
+    server_name labmai-room-claim.nankai.labmai.com;
+    root /data/gini-modules/node/labmai-room-claim/web;
+}
+
+server {
+    include /etc/nginx/include.d/gini.conf;
+    server_name order-review.admin.nankai.labmai.com;
+    root /data/gini-modules/node/admin-order-review/web;
+}
+
+server {
+    add_header Access-Control-Allow-Origin *;
+    add_header Access-Control-Allow-Headers "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With, x-gini-session";
+
+    server_name products.admin.nankai.labmai.com;
+    root /data/gini-modules/node/admin-products/web;
+
+    include /etc/nginx/include.d/gini.conf;
+}

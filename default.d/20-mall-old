@@ -1,0 +1,20 @@
+# server {
+#     include /etc/nginx/include.d/gateway.conf;
+#     server_name nankai-gateway.gapper.in;
+#     root /data/gini-modules/maintain-view/public;
+# }
+
+server {
+    server_name op.nankai.labmai.com;
+    root /data/mall-old/public;
+    set $mall_site_id "nankai";
+    include /etc/nginx/include.d/mall-old.conf;
+}
+
+server {
+    server_name nankai.mall.fake wiscom.mall.fake;
+    root /data/mall-old/public;
+    set $mall_site_id "wiscom";
+    include /etc/nginx/include.d/mall-old.conf;
+}
+

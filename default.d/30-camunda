@@ -1,0 +1,17 @@
+server {
+    server_name bpm.nankai.labmai.com;
+    location / {
+        proxy_pass http://172.17.42.1:8090;
+        proxy_set_header  X-Real-IP  $remote_addr;
+        proxy_set_header Host $host;
+    }
+}
+
+# server {
+#     server_name bpm-admin.nankai.labmai.com;
+#     location / {
+#         proxy_pass http://172.17.0.1:8092;
+#         proxy_set_header  X-Real-IP  $remote_addr;
+#         proxy_set_header Host $host;
+#     }
+# }

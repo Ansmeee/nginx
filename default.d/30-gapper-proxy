@@ -1,0 +1,14 @@
+upstream gapper {
+    server 123.59.70.173:80;
+}
+
+server {
+    server_name gapper.in *.gapper.in;
+
+    location / {
+        proxy_pass http://gapper;
+        proxy_set_header  X-Real-IP  $remote_addr;
+        proxy_set_header Host $host;
+    }
+
+}
